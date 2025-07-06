@@ -138,6 +138,27 @@ class ViewController: UIViewController {
 		return collectionView
 	}()
 	
+	private lazy var dailyForecastLabel: UILabel = {
+		let label = UILabel()
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.text = "PRÓXIMOS DIAS"
+		label.textColor = UIColor.whiteMain
+		label.font = .systemFont(ofSize: 12, weight: .semibold)
+		return label
+	}()
+	
+	private lazy var dailyForecastTableView: UITableView = {
+		let tableView = UITableView()
+		tableView.translatesAutoresizingMaskIntoConstraints = false
+		tableView.dataSource = self
+		tableView.register(DailyForecastTableViewCell.self, forCellReuseIdentifier: DailyForecastTableViewCell.identifier)
+		tableView.showsVerticalScrollIndicator = false
+		tableView.separatorColor = UIColor.whiteMain
+		tableView.separatorInset = .zero
+		tableView.backgroundColor = .clear
+		return tableView
+	}()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -150,6 +171,8 @@ class ViewController: UIViewController {
 		view.addSubview(statsStackView)
 		view.addSubview(hourlyForecastLabel)
 		view.addSubview(hourlyCollectionView)
+		view.addSubview(dailyForecastLabel)
+		view.addSubview(dailyForecastTableView)
 		
 		headerView.addSubview(cityLabel)
 		headerView.addSubview(temperatureLabel)
@@ -165,7 +188,7 @@ class ViewController: UIViewController {
 		])
 		
 		NSLayoutConstraint.activate([
-			headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
+			headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
 			headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
 			headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
 			headerView.heightAnchor.constraint(equalToConstant: 169),
@@ -197,7 +220,7 @@ class ViewController: UIViewController {
 		
 		NSLayoutConstraint.activate([
 			hourlyForecastLabel.topAnchor.constraint(equalTo: statsStackView.bottomAnchor, constant: 20),
-			hourlyForecastLabel.centerXAnchor.constraint(equalTo: statsStackView.centerXAnchor),
+			hourlyForecastLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 		])
 		
 		NSLayoutConstraint.activate([
@@ -205,6 +228,18 @@ class ViewController: UIViewController {
 			hourlyCollectionView.heightAnchor.constraint(equalToConstant: 84),
 			hourlyCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			hourlyCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+		])
+		
+		NSLayoutConstraint.activate([
+			dailyForecastLabel.topAnchor.constraint(equalTo: hourlyCollectionView.bottomAnchor, constant: 30),
+			dailyForecastLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+		])
+		
+		NSLayoutConstraint.activate([
+			dailyForecastTableView.topAnchor.constraint(equalTo: dailyForecastLabel.bottomAnchor, constant: 22),
+			dailyForecastTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+			dailyForecastTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 36),
+			dailyForecastTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -36),
 		])
 	}
 	
@@ -221,6 +256,19 @@ extension ViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyForecastCollectionViewCell.identifier, for: indexPath)
+		return cell
+	}
+	
+	
+}
+
+extension ViewController: UITableViewDataSource {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		12
+	}
+	
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: DailyForecastTableViewCell.identifier, for: indexPath)
 		return cell
 	}
 	
