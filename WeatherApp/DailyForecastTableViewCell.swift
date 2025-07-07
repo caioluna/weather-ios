@@ -14,7 +14,6 @@ class DailyForecastTableViewCell: UITableViewCell {
 	private lazy var weekDayLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.text = "TER"
 		label.textColor = UIColor.whiteMain
 		label.font = .systemFont(ofSize: 12, weight: .semibold)
 		return label
@@ -23,7 +22,6 @@ class DailyForecastTableViewCell: UITableViewCell {
 	private lazy var weatherIconImageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
-		imageView.image = UIImage.sunIcon
 		imageView.contentMode = .scaleAspectFit
 		return imageView
 	}()
@@ -31,7 +29,6 @@ class DailyForecastTableViewCell: UITableViewCell {
 	private lazy var minTemperatureLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.text = "min 20ºC"
 		label.textColor = UIColor.white
 		label.font = .systemFont(ofSize: 12, weight: .semibold)
 		return label
@@ -40,7 +37,6 @@ class DailyForecastTableViewCell: UITableViewCell {
 	private lazy var maxTemperatureLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.text = "max 25ºC"
 		label.textColor = UIColor.white
 		label.font = .systemFont(ofSize: 12, weight: .semibold)
 		return label
@@ -66,6 +62,13 @@ class DailyForecastTableViewCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	func loadData(weekDay: String?, icon: UIImage?, min: String?, max: String?) {
+		weekDayLabel.text = weekDay
+		weatherIconImageView.image = icon
+		minTemperatureLabel.text = min
+		maxTemperatureLabel.text = max
+	}
+	
 	private func setupView() {
 		backgroundColor = .clear
 		selectionStyle = .none
@@ -80,8 +83,9 @@ class DailyForecastTableViewCell: UITableViewCell {
 	
 	private func setConstraints() {
 		dailyForecastStatsStackView.setConstraintsToParent(contentView)
-		weekDayLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 36).isActive = true
-		weatherIconImageView.heightAnchor.constraint(equalToConstant: 21).isActive = true
+		
+		weekDayLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 70).isActive = true
+		weatherIconImageView.widthAnchor.constraint(lessThanOrEqualToConstant: 160).isActive = true
 	}
 	
 }
